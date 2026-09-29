@@ -5,6 +5,7 @@ import com.examcraft.service.QuestionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -21,7 +22,19 @@ public class QuestionController {
         return service.getAllQuestions();
     }
 
-    @GetMapping("/{id}")
+    /*
+     * Usage frequency endpoint
+     */
+    @GetMapping("/usage")
+    public List<Map<String, Object>> getQuestionUsage() {
+        return service.getQuestionUsage();
+    }
+
+    /*
+     * \d+ means only numeric IDs are accepted.
+     * So /usage will not be treated as an ID.
+     */
+    @GetMapping("/{id:\\d+}")
     public Question getById(@PathVariable Long id) {
         return service.getQuestionById(id);
     }
@@ -31,15 +44,14 @@ public class QuestionController {
         return service.addQuestion(question);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id:\\d+}")
     public Question update(
             @PathVariable Long id,
             @RequestBody Question question) {
-
         return service.updateQuestion(id, question);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id:\\d+}")
     public String delete(@PathVariable Long id) {
         service.deleteQuestion(id);
         return "Question deleted successfully";

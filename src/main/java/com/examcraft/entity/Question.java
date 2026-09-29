@@ -1,6 +1,13 @@
 package com.examcraft.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "questions")
@@ -23,6 +30,11 @@ public class Question {
     private String optionD;
 
     private String correctAnswer;
+
+    // Number of times this question has been used
+    // in generated test papers
+    @Column(nullable = false)
+    private Integer usageCount = 0;
 
     @ManyToOne
     @JoinColumn(name = "unit_id")
@@ -102,6 +114,14 @@ public class Question {
 
     public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
+    }
+
+    public Integer getUsageCount() {
+        return usageCount;
+    }
+
+    public void setUsageCount(Integer usageCount) {
+        this.usageCount = usageCount;
     }
 
     public Unit getUnit() {

@@ -1,7 +1,16 @@
 package com.examcraft.entity;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "test_papers")
@@ -12,13 +21,22 @@ public class TestPaper {
     private Long id;
 
     private String title;
+
     private int totalQuestions;
+
     private int easyPercentage;
+
     private int mediumPercentage;
+
     private int hardPercentage;
 
-    @OneToMany(mappedBy = "testPaper", cascade = CascadeType.ALL)
-    private List<TestPaperQuestion> questions;
+    private LocalDateTime generatedAt;
+
+    @OneToMany(
+            mappedBy = "testPaper",
+            cascade = CascadeType.ALL
+    )
+    private List<TestPaperQuestion> questions = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -62,6 +80,14 @@ public class TestPaper {
 
     public void setHardPercentage(int hardPercentage) {
         this.hardPercentage = hardPercentage;
+    }
+
+    public LocalDateTime getGeneratedAt() {
+        return generatedAt;
+    }
+
+    public void setGeneratedAt(LocalDateTime generatedAt) {
+        this.generatedAt = generatedAt;
     }
 
     public List<TestPaperQuestion> getQuestions() {
